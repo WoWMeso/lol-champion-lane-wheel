@@ -120,10 +120,16 @@ ctx.save();
 ctx.rotate(a+slice/2);
 ctx.textAlign="right";
 ctx.fillStyle="#fff";
-let fs=16;
-if(items.length>120)fs=11;
-else if(items.length>80)fs=13;
-else if(items.length>40)fs=15;
+let fs;
+if(items === lanes) {
+  // The lane wheel has only five slices, so make the lane names large.
+  fs = 46;
+} else {
+  fs = 16;
+  if(items.length>120)fs=11;
+  else if(items.length>80)fs=13;
+  else if(items.length>40)fs=15;
+}
 ctx.font="700 "+fs+"px Arial";
 ctx.fillText(item,r-14,5);
 ctx.restore();
