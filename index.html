@@ -3,496 +3,302 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>League of Legends — Champion & Lane Roulette</title>
+<title>League of Legends Champion & Lane Roulette</title>
 <style>
-  :root {
-    --bg: #0b1020;
-    --card: #151d31;
-    --card2: #1b2640;
-    --text: #f7f8fb;
-    --muted: #aab4ca;
-    --border: #34415f;
-    --accent: #c89b3c;
-    --accent2: #785a28;
-  }
-
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-      radial-gradient(circle at top, #17233e 0%, var(--bg) 48%, #070b15 100%);
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 28px 14px;
-  }
-
-  .app {
-    width: 100%;
-    max-width: 1050px;
-  }
-
-  header {
-    text-align: center;
-    margin-bottom: 24px;
-  }
-
-  h1 {
-    margin: 0 0 8px;
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    letter-spacing: .04em;
-  }
-
-  .subtitle {
-    color: var(--muted);
-    margin: 0;
-  }
-
-  .wheels {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px;
-  }
-
-  .card {
-    background: linear-gradient(145deg, var(--card), var(--card2));
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 14px 40px rgba(0,0,0,.28);
-  }
-
-  .card h2 {
-    margin: 0 0 4px;
-    font-size: 1.5rem;
-  }
-
-  .label {
-    color: var(--muted);
-    font-size: .85rem;
-    margin-bottom: 12px;
-  }
-
-  .wheel-wrap {
-    width: min(100%, 410px);
-    aspect-ratio: 1;
-    margin: 0 auto 16px;
-    position: relative;
-  }
-
-  canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    border-radius: 50%;
-  }
-
-  .pointer {
-    position: absolute;
-    z-index: 5;
-    top: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 34px solid var(--accent);
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,.5));
-  }
-
-  .result {
-    min-height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: clamp(1.15rem, 4vw, 1.7rem);
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 12px;
-  }
-
-  button {
-    min-height: 46px;
-    border: 1px solid #9b7a35;
-    border-radius: 10px;
-    padding: 10px 20px;
-    background: linear-gradient(#d2aa51, #a77c2e);
-    color: #111;
-    font-weight: 800;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-
-  button:hover:not(:disabled) {
-    filter: brightness(1.08);
-  }
-
-  button:disabled {
-    opacity: .45;
-    cursor: not-allowed;
-  }
-
-  .main-button {
-    display: block;
-    margin: 24px auto 10px;
-    padding: 14px 32px;
-    font-size: 1.1rem;
-  }
-
-  .status {
-    min-height: 26px;
-    text-align: center;
-    color: var(--muted);
-    font-weight: 600;
-  }
-
-  .result-box {
-    margin-top: 20px;
-    text-align: center;
-    background: rgba(200,155,60,.09);
-    border: 1px solid rgba(200,155,60,.35);
-    border-radius: 14px;
-    padding: 14px;
-  }
-
-  .result-box strong {
-    color: var(--accent);
-  }
-
-  @media (max-width: 720px) {
-    .wheels {
-      grid-template-columns: 1fr;
-    }
-
-    body {
-      padding: 18px 10px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    button { transition: none; }
-  }
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#17233e 0%,#0b1020 50%,#070b15 100%);color:#fff;font-family:Arial,Helvetica,sans-serif;padding:25px 12px}
+.app{max-width:1100px;margin:auto}
+header{text-align:center;margin-bottom:22px}
+h1{font-size:clamp(1.8rem,5vw,3rem);margin:0 0 8px}
+.subtitle{color:#aab4ca;margin:0}
+.wheels{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.card{background:linear-gradient(145deg,#151d31,#1b2640);border:1px solid #34415f;border-radius:20px;padding:18px;text-align:center;box-shadow:0 12px 35px #0005}
+.card h2{margin:0 0 3px}
+.label{color:#aab4ca;font-size:.82rem;margin-bottom:10px}
+.wheel-wrap{width:min(100%,410px);aspect-ratio:1;margin:auto;position:relative}
+canvas{width:100%;height:100%;display:block;border-radius:50%}
+.pointer{position:absolute;z-index:2;top:-3px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:34px solid #c89b3c;filter:drop-shadow(0 2px 3px #000)}
+.result{min-height:55px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.15rem,4vw,1.7rem);font-weight:800;margin:10px 0}
+button{min-height:46px;border:1px solid #9b7a35;border-radius:10px;padding:10px 20px;background:linear-gradient(#d2aa51,#a77c2e);color:#111;font-weight:800;cursor:pointer;font-size:1rem}
+button:disabled{opacity:.45;cursor:not-allowed}
+.main{display:block;margin:22px auto 10px;padding:14px 30px;font-size:1.1rem}
+.status{text-align:center;color:#aab4ca;min-height:25px;font-weight:600}
+.final{margin:18px auto 0;max-width:650px;text-align:center;padding:15px;border:1px solid #c89b3c66;border-radius:14px;background:#c89b3c12}
+.final strong{color:#c89b3c}
+@media(max-width:720px){.wheels{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
 <div class="app">
+<header>
+<h1>⚔️ League of Legends Roulette</h1>
+<p class="subtitle">The champion wheel finishes first — then the lane wheel automatically spins.</p>
+</header>
 
-  <header>
-    <h1>⚔️ League of Legends Roulette</h1>
-    <p class="subtitle">Pick your champion first — then the lane wheel spins automatically!</p>
-  </header>
+<div class="wheels">
+<section class="card">
+<h2>Champion</h2>
+<div class="label">WHEEL 1</div>
+<div class="wheel-wrap"><div class="pointer"></div><canvas id="championWheel" width="800" height="800"></canvas></div>
+<div id="championResult" class="result" aria-live="polite">Spin for a champion</div>
+<button id="championBtn">Spin Champion</button>
+</section>
 
-  <main class="wheels">
+<section class="card">
+<h2>Lane</h2>
+<div class="label">WHEEL 2 — AUTOMATIC</div>
+<div class="wheel-wrap"><div class="pointer"></div><canvas id="laneWheel" width="800" height="800"></canvas></div>
+<div id="laneResult" class="result" aria-live="polite">Waiting for champion...</div>
+<button id="laneBtn" disabled>Spin Lane</button>
+</section>
+</div>
 
-    <section class="card">
-      <h2>Champion</h2>
-      <div class="label">WHEEL 1</div>
-
-      <div class="wheel-wrap">
-        <div class="pointer"></div>
-        <canvas id="championWheel" width="800" height="800"></canvas>
-      </div>
-
-      <div id="championResult" class="result" aria-live="polite">
-        Spin for a champion
-      </div>
-
-      <button id="championBtn" type="button">Spin Champion</button>
-    </section>
-
-    <section class="card">
-      <h2>Lane</h2>
-      <div class="label">WHEEL 2 — AUTO SPINS</div>
-
-      <div class="wheel-wrap">
-        <div class="pointer"></div>
-        <canvas id="laneWheel" width="800" height="800"></canvas>
-      </div>
-
-      <div id="laneResult" class="result" aria-live="polite">
-        Waiting for champion
-      </div>
-
-      <button id="laneBtn" type="button" disabled>Spin Lane</button>
-    </section>
-
-  </main>
-
-  <button id="spinAll" class="main-button" type="button">
-    🎲 PICK CHAMPION + LANE
-  </button>
-
-  <div id="status" class="status" aria-live="polite">Ready!</div>
-
-  <div class="result-box">
-    Final Pick:
-    <strong id="finalResult">—</strong>
-  </div>
-
+<button id="spinAll" class="main">🎲 PICK CHAMPION + AUTO PICK LANE</button>
+<div id="status" class="status" aria-live="polite">Ready!</div>
+<div class="final">Final Pick: <strong id="finalResult">—</strong></div>
 </div>
 
 <script>
-(function () {
-  "use strict";
+(function(){
+"use strict";
 
-  const champions = [
-    "Aatrox","Ahri","Akali","Akshan","Alistar","Ambessa","Amumu","Anivia","Annie",
-    "Aphelios","Ashe","Aurelion Sol","Aurora","Azir","Bard","Bel'Veth","Blitzcrank",
-    "Brand","Braum","Briar","Caitlyn","Camille","Cassiopeia","Cho'Gath","Corki",
-    "Darius","Diana","Dr. Mundo","Draven","Ekko","Elise","Evelynn","Ezreal",
-    "Fiddlesticks","Fiora","Fizz","Galio","Gangplank","Garen","Gnar","Gragas",
-    "Graves","Gwen","Hecarim","Heimerdinger","Hwei","Illaoi","Irelia","Ivern",
-    "Janna","Jarvan IV","Jax","Jayce","Jhin","Jinx","K'Sante","Kai'Sa","Kalista",
-    "Karma","Karthus","Kassadin","Katarina","Kayle","Kayn","Kennen","Kha'Zix",
-    "Kindred","Kled","Kog'Maw","LeBlanc","Lee Sin","Leona","Lillia","Lissandra",
-    "Lucian","Lulu","Lux","Malphite","Malzahar","Maokai","Mel","Master Yi",
-    "Milio","Miss Fortune","Mordekaiser","Morgana","Naafiri","Nami","Nasus",
-    "Nautilus","Neeko","Nidalee","Nilah","Nocturne","Nunu & Willump","Olaf",
-    "Orianna","Ornn","Pantheon","Poppy","Pyke","Qiyana","Quinn","Rakan","Rammus",
-    "Rek'Sai","Rell","Renata Glasc","Renekton","Rengar","Riven","Rumble","Ryze",
-    "Samira","Sejuani","Senna","Seraphine","Sett","Shaco","Shen","Shyvana",
-    "Singed","Sion","Sivir","Skarner","Smolder","Sona","Soraka","Swain","Sylas",
-    "Syndra","Tahm Kench","Taliyah","Talon","Taric","Teemo","Thresh","Tristana",
-    "Trundle","Tryndamere","Twisted Fate","Twitch","Udyr","Urgot","Varus","Vayne",
-    "Veigar","Vel'Koz","Vex","Vi","Viego","Viktor","Vladimir","Volibear","Warwick",
-    "Wukong","Xayah","Xerath","Xin Zhao","Yasuo","Yone","Yorick","Yunara","Yuumi",
-    "Zac","Zed","Zeri","Ziggs","Zilean","Zoe","Zyra"
-  ];
+const champions=[
+"Aatrox","Ahri","Akali","Akshan","Alistar","Ambessa","Amumu","Anivia","Annie","Aphelios","Ashe","Aurelion Sol","Aurora","Azir",
+"Bard","Bel'Veth","Blitzcrank","Brand","Braum","Briar","Caitlyn","Camille","Cassiopeia","Cho'Gath","Corki","Darius","Diana","Dr. Mundo",
+"Draven","Ekko","Elise","Evelynn","Ezreal","Fiddlesticks","Fiora","Fizz","Galio","Gangplank","Garen","Gnar","Gragas","Graves","Gwen",
+"Hecarim","Heimerdinger","Hwei","Illaoi","Irelia","Ivern","Janna","Jarvan IV","Jax","Jayce","Jhin","Jinx","K'Sante","Kai'Sa","Kalista",
+"Karma","Karthus","Kassadin","Katarina","Kayle","Kayn","Kennen","Kha'Zix","Kindred","Kled","Kog'Maw","LeBlanc","Lee Sin","Leona",
+"Lillia","Lissandra","Lucian","Lulu","Lux","Malphite","Malzahar","Maokai","Mel","Master Yi","Milio","Miss Fortune","Mordekaiser","Morgana",
+"Naafiri","Nami","Nasus","Nautilus","Neeko","Nidalee","Nilah","Nocturne","Nunu & Willump","Olaf","Orianna","Ornn","Pantheon","Poppy",
+"Pyke","Qiyana","Quinn","Rakan","Rammus","Rek'Sai","Rell","Renata Glasc","Renekton","Rengar","Riven","Rumble","Ryze","Samira",
+"Sejuani","Senna","Seraphine","Sett","Shaco","Shen","Shyvana","Singed","Sion","Sivir","Skarner","Smolder","Sona","Soraka","Swain",
+"Sylas","Syndra","Tahm Kench","Taliyah","Talon","Taric","Teemo","Thresh","Tristana","Trundle","Tryndamere","Twisted Fate","Twitch",
+"Udyr","Urgot","Varus","Vayne","Veigar","Vel'Koz","Vex","Vi","Viego","Viktor","Vladimir","Volibear","Warwick","Wukong","Xayah",
+"Xerath","Xin Zhao","Yasuo","Yone","Yorick","Yunara","Yuumi","Zac","Zed","Zeri","Ziggs","Zilean","Zoe","Zyra"
+];
 
-  const lanes = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
+const lanes=["TOP","JUNGLE","MID","ADC","SUPPORT"];
 
-  const championCanvas = document.getElementById("championWheel");
-  const laneCanvas = document.getElementById("laneWheel");
+const cCanvas=document.getElementById("championWheel");
+const lCanvas=document.getElementById("laneWheel");
+const cctx=cCanvas.getContext("2d");
+const lctx=lCanvas.getContext("2d");
+const cResult=document.getElementById("championResult");
+const lResult=document.getElementById("laneResult");
+const finalResult=document.getElementById("finalResult");
+const status=document.getElementById("status");
+const cBtn=document.getElementById("championBtn");
+const lBtn=document.getElementById("laneBtn");
+const allBtn=document.getElementById("spinAll");
 
-  const championCtx = championCanvas.getContext("2d");
-  const laneCtx = laneCanvas.getContext("2d");
+let cAngle=0;
+let lAngle=0;
+let busy=false;
+let championReady=false;
 
-  const championResult = document.getElementById("championResult");
-  const laneResult = document.getElementById("laneResult");
-  const finalResult = document.getElementById("finalResult");
-  const status = document.getElementById("status");
+function draw(ctx,items,angle){
+const w=ctx.canvas.width,h=ctx.canvas.height,cx=w/2,cy=h/2,r=w/2-8;
+const slice=Math.PI*2/items.length;
+ctx.clearRect(0,0,w,h);
+ctx.save();
+ctx.translate(cx,cy);
+ctx.rotate(angle);
 
-  const championBtn = document.getElementById("championBtn");
-  const laneBtn = document.getElementById("laneBtn");
-  const spinAllBtn = document.getElementById("spinAll");
+items.forEach((item,i)=>{
+const a=i*slice;
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.arc(0,0,r,a,a+slice);
+ctx.closePath();
+ctx.fillStyle=i%2===0?"#18243c":"#293957";
+ctx.fill();
+ctx.strokeStyle="rgba(255,255,255,.18)";
+ctx.lineWidth=2;
+ctx.stroke();
 
-  let championAngle = 0;
-  let laneAngle = 0;
-  let busy = false;
-  let championPicked = false;
+ctx.save();
+ctx.rotate(a+slice/2);
+ctx.textAlign="right";
+ctx.fillStyle="#fff";
+let fs=16;
+if(items.length>120)fs=11;
+else if(items.length>80)fs=13;
+else if(items.length>40)fs=15;
+ctx.font="700 "+fs+"px Arial";
+ctx.fillText(item,r-14,5);
+ctx.restore();
+});
+ctx.restore();
 
-  function drawWheel(ctx, items, angle) {
-    const width = ctx.canvas.width;
-    const height = ctx.canvas.height;
-    const cx = width / 2;
-    const cy = height / 2;
-    const radius = Math.min(width, height) / 2 - 8;
-    const slice = (Math.PI * 2) / items.length;
+ctx.beginPath();
+ctx.arc(cx,cy,42,0,Math.PI*2);
+ctx.fillStyle="#0d1425";
+ctx.fill();
+ctx.strokeStyle="#c89b3c";
+ctx.lineWidth=4;
+ctx.stroke();
+}
 
-    ctx.clearRect(0, 0, width, height);
+function getIndex(items,angle){
+/*
+  The pointer is at the TOP of the wheel (-PI/2).
+  The old calculation treated the pointer as being at 0 radians,
+  which caused the displayed wheel selection and final result to disagree.
+*/
+const slice=Math.PI*2/items.length;
+const pointerAngle=-Math.PI/2;
+const normalized=(((pointerAngle-angle)%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+return Math.floor(normalized/slice)%items.length;
+}
 
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(angle);
+function spinWheel(type,duration){
+return new Promise(resolve=>{
+const isChampion=type==="champion";
+const items=isChampion?champions:lanes;
+const ctx=isChampion?cctx:lctx;
+const start=isChampion?cAngle:lAngle;
 
-    items.forEach(function (item, index) {
-      const start = index * slice;
-      const end = start + slice;
+const rotations=5+Math.random()*3;
+const target=start+(Math.PI*2*rotations)+(Math.random()*Math.PI*2);
+const begin=performance.now();
 
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.arc(0, 0, radius, start, end);
-      ctx.closePath();
+function animate(now){
+const p=Math.min(1,(now-begin)/duration);
+const ease=1-Math.pow(1-p,4);
+const angle=start+(target-start)*ease;
 
-      ctx.fillStyle = index % 2 === 0 ? "#18243c" : "#293957";
-      ctx.fill();
+if(isChampion)cAngle=angle;
+else lAngle=angle;
 
-      ctx.strokeStyle = "rgba(255,255,255,.18)";
-      ctx.lineWidth = 2;
-      ctx.stroke();
+draw(ctx,items,angle);
 
-      ctx.save();
-      ctx.rotate(start + slice / 2);
-      ctx.textAlign = "right";
-      ctx.fillStyle = "#ffffff";
+if(p<1){
+requestAnimationFrame(animate);
+}else{
+resolve(getIndex(items,angle));
+}
+}
+requestAnimationFrame(animate);
+});
+}
 
-      let fontSize = 16;
-      if (items.length > 120) fontSize = 11;
-      else if (items.length > 80) fontSize = 13;
-      else if (items.length > 40) fontSize = 15;
+/*
+  IMPORTANT:
+  This is the automatic sequence.
+  1. Champion wheel spins.
+  2. Champion result is displayed.
+  3. 700ms later, lane wheel starts WITHOUT the user clicking anything.
+  4. Lane result is displayed.
+*/
+async function automaticPick(){
+if(busy)return;
 
-      ctx.font = "700 " + fontSize + "px Arial";
-      ctx.fillText(item, radius - 14, 5);
-      ctx.restore();
-    });
+busy=true;
+championReady=false;
+cBtn.disabled=true;
+lBtn.disabled=true;
+allBtn.disabled=true;
 
-    ctx.restore();
+cResult.textContent="Spinning...";
+lResult.textContent="Waiting for champion...";
+finalResult.textContent="—";
+status.textContent="🎯 Choosing your champion...";
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, 42, 0, Math.PI * 2);
-    ctx.fillStyle = "#0d1425";
-    ctx.fill();
-    ctx.strokeStyle = "#c89b3c";
-    ctx.lineWidth = 4;
-    ctx.stroke();
-  }
+const championIndex=await spinWheel("champion",4200);
+const champion=champions[championIndex];
 
-  function selectedIndex(items, angle) {
-    const slice = (Math.PI * 2) / items.length;
-    let normalized = ((-angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-    return Math.floor(normalized / slice) % items.length;
-  }
+cResult.textContent=champion;
+championReady=true;
+status.textContent="✅ "+champion+" selected! Lane wheel is starting...";
 
-  function spin(which, duration) {
-    return new Promise(function (resolve) {
-      const isChampion = which === "champion";
-      const canvas = isChampion ? championCanvas : laneCanvas;
-      const ctx = isChampion ? championCtx : laneCtx;
-      const items = isChampion ? champions : lanes;
-      const startAngle = isChampion ? championAngle : laneAngle;
+await new Promise(resolve=>setTimeout(resolve,700));
 
-      const extraRotations = Math.PI * 2 * (5 + Math.random() * 3);
-      const randomOffset = Math.random() * Math.PI * 2;
-      const targetAngle = startAngle + extraRotations + randomOffset;
-      const startTime = performance.now();
+lResult.textContent="Spinning automatically...";
+status.textContent="🛣️ Now choosing your lane...";
 
-      function animate(now) {
-        const progress = Math.min(1, (now - startTime) / duration);
-        const eased = 1 - Math.pow(1 - progress, 4);
-        const currentAngle =
-          startAngle + (targetAngle - startAngle) * eased;
+const laneIndex=await spinWheel("lane",3500);
+const lane=lanes[laneIndex];
 
-        if (isChampion) {
-          championAngle = currentAngle;
-        } else {
-          laneAngle = currentAngle;
-        }
+lResult.textContent=lane;
+finalResult.textContent=champion+" — "+lane;
+status.textContent="🎉 FINAL PICK: "+champion+" — "+lane;
 
-        drawWheel(ctx, items, currentAngle);
+busy=false;
+cBtn.disabled=false;
+allBtn.disabled=false;
+lBtn.disabled=false;
+}
 
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          resolve(selectedIndex(items, currentAngle));
-        }
-      }
+/* Optional individual champion spin. It also starts the lane wheel automatically. */
+async function championButton(){
+if(busy)return;
 
-      requestAnimationFrame(animate);
-    });
-  }
+busy=true;
+cBtn.disabled=true;
+lBtn.disabled=true;
+allBtn.disabled=true;
 
-  async function pickChampionAndLane() {
-    if (busy) return;
+cResult.textContent="Spinning...";
+lResult.textContent="Waiting for champion...";
+finalResult.textContent="—";
+status.textContent="🎯 Choosing your champion...";
 
-    busy = true;
-    championPicked = false;
+const championIndex=await spinWheel("champion",4200);
+const champion=champions[championIndex];
 
-    championBtn.disabled = true;
-    laneBtn.disabled = true;
-    spinAllBtn.disabled = true;
+cResult.textContent=champion;
+championReady=true;
+status.textContent="✅ "+champion+" selected! Lane wheel is starting...";
 
-    championResult.textContent = "Spinning...";
-    laneResult.textContent = "Waiting...";
-    finalResult.textContent = "—";
-    status.textContent = "Choosing your champion...";
+await new Promise(resolve=>setTimeout(resolve,700));
 
-    const championIndex = await spin("champion", 4200);
-    const champion = champions[championIndex];
+lResult.textContent="Spinning automatically...";
+status.textContent="🛣️ Now choosing your lane...";
 
-    championResult.textContent = champion;
-    championPicked = true;
+const laneIndex=await spinWheel("lane",3500);
+const lane=lanes[laneIndex];
 
-    status.textContent =
-      champion + " selected! Automatically choosing your lane...";
+lResult.textContent=lane;
+finalResult.textContent=champion+" — "+lane;
+status.textContent="🎉 FINAL PICK: "+champion+" — "+lane;
 
-    await new Promise(function (resolve) {
-      setTimeout(resolve, 700);
-    });
+busy=false;
+cBtn.disabled=false;
+lBtn.disabled=false;
+allBtn.disabled=false;
+}
 
-    laneResult.textContent = "Spinning...";
+/* Manual lane button is kept as a backup. */
+async function manualLane(){
+if(busy||!championReady)return;
+busy=true;
+cBtn.disabled=true;
+lBtn.disabled=true;
+allBtn.disabled=true;
 
-    const laneIndex = await spin("lane", 3500);
-    const lane = lanes[laneIndex];
+lResult.textContent="Spinning...";
+status.textContent="🛣️ Choosing your lane...";
 
-    laneResult.textContent = lane;
-    finalResult.textContent = champion + " — " + lane;
+const laneIndex=await spinWheel("lane",3500);
+const lane=lanes[laneIndex];
+const champion=cResult.textContent;
 
-    status.textContent = "🎉 Your pick is " + champion + " — " + lane;
+lResult.textContent=lane;
+finalResult.textContent=champion+" — "+lane;
+status.textContent="🎉 FINAL PICK: "+champion+" — "+lane;
 
-    busy = false;
-    championBtn.disabled = false;
-    laneBtn.disabled = false;
-    spinAllBtn.disabled = false;
-  }
+busy=false;
+cBtn.disabled=false;
+lBtn.disabled=false;
+allBtn.disabled=false;
+}
 
-  async function pickChampionOnly() {
-    if (busy) return;
+cBtn.addEventListener("click",championButton);
+lBtn.addEventListener("click",manualLane);
+allBtn.addEventListener("click",automaticPick);
 
-    busy = true;
-    championPicked = false;
-
-    championBtn.disabled = true;
-    laneBtn.disabled = true;
-    spinAllBtn.disabled = true;
-
-    championResult.textContent = "Spinning...";
-    laneResult.textContent = "Waiting for champion";
-    finalResult.textContent = "—";
-    status.textContent = "Choosing your champion...";
-
-    const championIndex = await spin("champion", 4200);
-    const champion = champions[championIndex];
-
-    championResult.textContent = champion;
-    championPicked = true;
-
-    status.textContent =
-      champion + " selected. Lane wheel is ready.";
-
-    busy = false;
-    championBtn.disabled = false;
-    laneBtn.disabled = false;
-    spinAllBtn.disabled = false;
-  }
-
-  async function pickLaneOnly() {
-    if (busy || !championPicked) return;
-
-    busy = true;
-
-    championBtn.disabled = true;
-    laneBtn.disabled = true;
-    spinAllBtn.disabled = true;
-
-    laneResult.textContent = "Spinning...";
-    status.textContent = "Choosing your lane...";
-
-    const laneIndex = await spin("lane", 3500);
-    const lane = lanes[laneIndex];
-    const champion = championResult.textContent;
-
-    laneResult.textContent = lane;
-    finalResult.textContent = champion + " — " + lane;
-    status.textContent = "🎉 Your pick is " + champion + " — " + lane;
-
-    busy = false;
-    championBtn.disabled = false;
-    laneBtn.disabled = false;
-    spinAllBtn.disabled = false;
-  }
-
-  championBtn.addEventListener("click", pickChampionOnly);
-  laneBtn.addEventListener("click", pickLaneOnly);
-  spinAllBtn.addEventListener("click", pickChampionAndLane);
-
-  drawWheel(championCtx, champions, championAngle);
-  drawWheel(laneCtx, lanes, laneAngle);
+draw(cctx,champions,cAngle);
+draw(lctx,lanes,lAngle);
 })();
 </script>
 </body>
